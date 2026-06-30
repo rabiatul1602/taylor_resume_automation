@@ -35,7 +35,7 @@ Read/Write Files from Disk1     (writes tailored resume to disk)
 ## Stack
 
 - **n8n** (self-hosted, Windows, no Docker)
-- **OpenRouter** free-tier LLM (`google/gemma-3-27b-it:free`)
+- **OpenRouter** free-tier LLM (`nvidia/nemotron-3-super-120b-a12b:free`)
 - Native n8n file nodes only — no `fs`, no external npm packages (sandbox-safe)
 
 ## Setup
