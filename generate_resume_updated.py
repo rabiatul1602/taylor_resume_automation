@@ -4,8 +4,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from docx import Document
 
-#WATCH_FOLDER = r"C:\Users\LENOVO\.n8n-files"
-WATCH_FOLDER = r"D:\env_n8n\watchdog"
+WATCH_FOLDER = r"C:\Users\LENOVO\.n8n-files"
 TARGET_FILENAME = "tailored_text.txt"
 OUTPUT_FILENAME = "tailored_resume.docx"
 
@@ -40,11 +39,18 @@ class TailoredTextHandler(FileSystemEventHandler):
         convert_to_docx(text, output_path)
         print(f"Converted -> {output_path}")
 
-        # rename/remove the source txt so it doesn't get reprocessed
+        # save a numbered copy before removing so the original is preserved
         try:
-            path.unlink()
+            idx = 0
+            while True:
+                archive_path = path.parent / f"tailored_text_{idx}.txt"
+                if not archive_path.exists():
+                    break
+                idx += 1
+            path.rename(archive_path)
+            print(f"Archived -> {archive_path}")
         except Exception as e:
-            print(f"Could not delete source file: {e}")
+            print(f"Could not archive source file: {e}")
 
 
 def is_heading(line: str) -> bool:
